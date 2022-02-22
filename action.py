@@ -45,4 +45,4 @@ def send_notification():
     blob.make_public()
 
     docRef.set(data)
-    db.collection('new_detections').document(id).set(data) # duplication
+    db.collection('new_detections').document('recent').set(data) # duplication
