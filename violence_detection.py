@@ -33,7 +33,11 @@ def main(video_input_file_path, height, width):
             bgr = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
             video_frames_optical_flow.append(bgr)
             if len(video_frames_optical_flow) == 50:
-                prediction = violence_model.predict(video_frames_optical_flow)
+                x1 = np.array(video_frames_optical_flow)
+                x1 = x1.astype('float32')
+                x1 /= 255
+                x1 = x1.reshape((1, 50, 100, 100, 3))
+                prediction = violence_model.predict(x1)
                 if prediction == 0:
                     action.send_notification()
                 else:
