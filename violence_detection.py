@@ -39,6 +39,7 @@ def main(video_input_file_path, height, width):
                 x1 = x1.reshape((1, 50, 100, 100, 3))
                 prediction = violence_model.predict(x1)
                 if np.argmax(prediction, axis=1) == 0:
+                    print('violence detected')
                     action.send_notification()
                 else:
                     print('non violence')

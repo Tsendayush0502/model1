@@ -15,12 +15,6 @@ def send_notification():
 
 
     db = firestore.client()
-
-    filename = f'{id}.jpg'
-    data = {
-    'timestamp': datetime.now(),
-    'fileName': filename
-    }
     for user in db.collection('users').get():
         print(user.get('fcmToken'))
         if user.get('type') == 'normal':
@@ -39,11 +33,16 @@ def send_notification():
         }, headers={
             'Authorization': 'key=AAAAJZZnD84:APA91bGF2CxejvYww1JD4ssMwNltCEnFu_zmWkkXEbzL6rWzH02079Si4Yp_EVhmEbP38hC5In2Ma9rj3ynqUXu_vAaM2xiXjdWfQ0grPEIaHCiK1F2ovKJSjirZUJgyFYQOAHdtHAqe '
         })
+    docRef = db.collection('history').document()
+    id = docRef.id
+    filename = f'{id}.jpg'
+    data = {
+    'timestamp': datetime.now(),
+    'fileName': filename
+    }
     blob = storage.bucket().blob(f'detection_images/{filename}')
     blob.upload_from_filename('./dummy.jpg', content_type='image/jpeg')
     blob.make_public()
 
-    docRef = db.collection('history').document()
-    id = docRef.id
     docRef.set(data)
     db.collection('new_detections').document(id).set(data) # duplication
