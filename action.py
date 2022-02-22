@@ -1,20 +1,20 @@
+import os 
+from datetime import datetime
+import requests
+
+import firebase_admin
+from firebase_admin import credentials, firestore, storage
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+
+cred = credentials.Certificate(f"{dir_path}/firebase_admin.json")
+firebase_admin.initialize_app(cred, {
+'storageBucket': 'rtvd-test.appspot.com'
+})
+db = firestore.client()
+
 def send_notification():
-    import os 
-    from datetime import datetime
-    import requests
 
-    import firebase_admin
-    from firebase_admin import credentials, firestore, storage
-
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-
-    cred = credentials.Certificate(f"{dir_path}/firebase_admin.json")
-    firebase_admin.initialize_app(cred, {
-    'storageBucket': 'rtvd-test.appspot.com'
-    })
-
-
-    db = firestore.client()
     for user in db.collection('users').get():
         print(user.get('fcmToken'))
         if user.get('type') == 'normal':
