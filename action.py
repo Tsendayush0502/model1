@@ -41,7 +41,7 @@ def send_notification():
     'fileName': filename
     }
     blob = storage.bucket().blob(f'detection_images/{filename}')
-    blob.upload_from_filename('./dummy.jpg', content_type='image/jpeg')
+    blob.upload_from_filename('./detection.jpg', content_type='image/jpeg')
     blob.make_public()
 
     docRef.set(data)

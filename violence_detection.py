@@ -21,7 +21,7 @@ def main(video_input_file_path, height, width):
     while cap.isOpened():
 
         ret2, frame2 = cap.read()
-
+        image = frame2
         if ret2:
 
             frame2 = cv2.resize(frame2, (width, height))
@@ -40,6 +40,7 @@ def main(video_input_file_path, height, width):
                 prediction = violence_model.predict(x1)
                 if np.argmax(prediction, axis=1) == 0:
                     print('violence detected')
+                    cv2.imwrite("./detection.jpg", image) 
                     action.send_notification()
                 else:
                     print('non violence')
